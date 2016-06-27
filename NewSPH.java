@@ -12,7 +12,7 @@ import javax.swing.Timer;
 
 public class NewSPH extends JPanel implements ActionListener {
 	static double gravity = 0.6;
-	public static double range = 15;
+	public static double range = 10;
 	static double pressure = 1;
 	static double viscosity = .07;
     double range2 = range * range;
@@ -22,7 +22,9 @@ public class NewSPH extends JPanel implements ActionListener {
     static int screenSize = 700;
     double invGridSize = 1 / (screenSize / numGrids);
     
-    int numParticles = 2500;
+    int numLiquidParticles = 2500;
+    int numSolidParticles = 50;
+    int numParticles = numLiquidParticles + numSolidParticles;
     
     Particle[] particles = new Particle[numParticles];
     ArrayList<Neighbor> neighbors = new ArrayList<Neighbor>();
@@ -134,24 +136,25 @@ public class NewSPH extends JPanel implements ActionListener {
     
     void initParticles() {
     	int count = 0;
-    	for (int i=5; i<255; i+=5) {
-    		for (int j=450; j<700; j+=5) {
-    		Particle p = new Particle("fluid");
-    		p.x = i;
-    		p.y = j;
-    		particles[count] = p;
-    		count++;
+    	int increment = 5;
+    	int startX = 5;
+    	int startY = 450;
+    	int sideLength = (int) Math.sqrt(numLiquidParticles);
+    	for (int i=startX; i<(startX + (sideLength*increment)); i+=increment) {
+    		for (int j=startY; j<(startY + (sideLength*increment)); j+=increment) {
+	    		Particle p = new Particle("fluid");
+	    		p.x = i;
+	    		p.y = j;
+	    		particles[count] = p;
+	    		count++;
     		}
     	}
-    	double yVal = 0;
-    	for (int i=0; i<20; i++) {
-   
+    	for (int i=0; i<(numSolidParticles*increment); i+=increment) {
     		Particle p = new Particle("solid");
     		p.x = screenSize/2;
-    		p.y = yVal;
+    		p.y = i;
     		particles[count] = p;
     		count++;
-    		yVal+=5;
     	}
     }
     
