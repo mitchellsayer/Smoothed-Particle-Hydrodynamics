@@ -142,7 +142,7 @@ public class NewSPH extends JPanel implements ActionListener {
     	int sideLength = (int) Math.sqrt(numLiquidParticles);
     	for (int i=startX; i<(startX + (sideLength*increment)); i+=increment) {
     		for (int j=startY; j<(startY + (sideLength*increment)); j+=increment) {
-	    		Particle p = new Particle("fluid");
+	    		Particle p = new Particle();
 	    		p.x = i;
 	    		p.y = j;
 	    		particles[count] = p;
@@ -150,7 +150,7 @@ public class NewSPH extends JPanel implements ActionListener {
     		}
     	}
     	for (int i=0; i<(numSolidParticles*increment); i+=increment) {
-    		Particle p = new Particle("solid");
+    		Particle p = new Particle();
     		p.x = screenSize/2;
     		p.y = i;
     		particles[count] = p;
@@ -212,6 +212,21 @@ public class NewSPH extends JPanel implements ActionListener {
 	    frame.setSize((int)(screenSize), screenSize + 25);
 	    frame.setLocationRelativeTo(null);
 	    frame.setVisible(true);
+	    
+	    String input = "lipps";
+		String char1 = "l";
+		String char2 = "h";
+		String letter = "abcdefghijklmnopqrstuvwxyz";
+		String output = "";
+	
+		int shift = letter.indexOf(char1) - letter.indexOf(char2);
+		
+		for (String c:input.split("")) {
+			int newN = (letter.indexOf(c) + shift) % (letter.length()-1);
+			output += letter.substring(newN, newN+1);
+		}
+		
+		System.out.print(output);
 	}
     
 }
